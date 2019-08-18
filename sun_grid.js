@@ -7,14 +7,24 @@ var random_width = 30;
 var radius = 10;
 var grid = [];
 var circles_in_stalk = 20;
+var previous_x = 0;
+var previous_y = 0;
+var current_x = 0;
+var current_x = 0;
 function setup() {
   createCanvas(width, height);
   init_grid();
 }
 
 function draw() {
-  clear();
-  render_grid();
+  if (previous_x != mouseX || previous_y != mouseY) {
+    current_x = mouseX;
+    current_y = mouseY
+    clear();
+    render_grid();
+    previous_x = current_x;
+    previous_y = current_y;
+  }
 }
 
 function render_grid() {
@@ -34,8 +44,7 @@ function draw_stalk(x, y) {
 }
 
 function get_offset(x, y) {
-  var mouse = [mouseX, mouseY];
-  var diff =  [(mouseX - x) * .002, (mouseY - y) * .002];
+  var diff =  [(current_x - x) * .002, (current_y - y) * .002];
   return diff;
 }
 
