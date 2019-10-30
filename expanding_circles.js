@@ -48,10 +48,6 @@ function update_grid() {
 
 function update_point(x, y) {
   var center = [(x_points / 2) * point_width, (y_points / 2) * point_width];
-  console.log("center");
-  console.log(center);
-  console.log("point");
-  console.log(grid[x][y]);
   var initial = get_initial(x, y);
   initial[2] = (dist(grid[x][y][0], grid[x][y][1], center[0], center[1]) - ((frameCount * 10) % 255)) % 255;
   return initial;
