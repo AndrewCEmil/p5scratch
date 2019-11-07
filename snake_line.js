@@ -15,7 +15,7 @@ function setup() {
 function draw() {
   clear();
   translate(-width/3,-height/4,0)
-  var num_boxes = 20;
+  var num_boxes = 10;
   for (var i = 0; i < num_boxes; i++) {
     rotateX(millis() / 1000);
     box(50, 50, 50);
