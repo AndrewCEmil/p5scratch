@@ -1,84 +1,33 @@
 let width = 1600;
-let height = 900;
-var x_points = 50;
-var y_points = 50;
-var point_width = 50;
-var random_width = 30;
-var radius = 10;
-var grid = [];
-var new_grid = [];
-var step = 0;
+let height = 1100;
+var grid_size = 1000;
+var num_lines = 100;
 function setup() {
-  createCanvas(width, height);
-  init_grid();
-  render_grid();
+  createCanvas(width, height, WEBGL);
 }
 
 function draw() {
-  if (frameCount < 10000) {
-    clear();
-    update_grid();
-    render_grid();
-  }
+  clear();
+  outer_box();
+  left_side();
 }
 
-function print_grid() {
-  for (var i = 0; i < grid.length; i++) {
-    var line = ""
-    for (var j = 0; j < grid[i].length; j++) {
-      line = line + "| " + grid[i][j];
-    }
-    console.log(line);
-  }
+function outer_box() {
+  var top_left = -1 * grid_size / 2;
+  var bottom_right = grid_size / 2;
+  line(top_left, top_left, bottom_right, top_left);
+  //line(0, 0, 1000, 0);
+  line(bottom_right, top_left, bottom_right, bottom_right);
+  //line(1000, 0, 1000, 1000);
+  line(top_left, bottom_right, bottom_right, bottom_right);
+  //line(0, 1000, 1000, 1000);
+  line(top_left, top_left, top_left, bottom_right);
+  //line(0, 0, 0, 1000);
 }
 
-
-function update_grid() {
-  for (var i = 0; i < grid.length; i++) {
-    for (var j = 0; j < grid[i].length; j++) {
-      //Copy points over
-      var pt = update_point(i, j);
-      new_grid[i][j][0] = pt[0];
-      new_grid[i][j][1] = pt[1];
-      new_grid[i][j][2] = pt[2];
-    }
+function left_side() {
+  for (var i = 0; i < num_lines; i++) {
+    var cur = (-1 * grid_size / 2) + i * grid_size / num_lines;
+    line(cur, 0, 0, -100);
   }
-  grid = new_grid;
-}
-
-function update_point(x, y) {
-  var x_percent = (x / x_points) * TWO_PI;
-  var y_percent = (y / y_points) * TWO_PI;
-  var t = frameCount * 0.1;
-  var initial = get_initial(x, y);
-  initial[2] = dist(grid[x][y][0], grid[x][y][1], mouseX, mouseY);
-  return initial;
-}
-
-function render_grid() {
-  for (var i = 0; i < grid.length; i++) {
-    for (var j = 0; j < grid[i].length; j++) {
-      strokeWeight(1);
-      fill(grid[i][j][2]);
-      circle(grid[i][j][0], grid[i][j][1], 10);
-    }
-  }
-}
-
-function init_grid() {
-  for (var i = 0; i < x_points; i++) {
-    grid[i] = [];
-    new_grid[i] = [];
-  }
-  for (var i = 0; i < x_points; i++) {
-    for (var j = 0; j < y_points; j++) {
-      var pt = get_initial(i, j);
-      grid[i][j] = pt;
-      new_grid[i][j] = pt;
-    }
-  }
-}
-
-function get_initial(x, y) {
-  return [x * point_width, y * point_width, 0];
 }
